@@ -2,7 +2,7 @@
 import "../css/navbar2.css";
 import { useState,useContext } from "react";
 
-import {  Outlet, useNavigate } from "react-router-dom";
+import {  NavLink, Outlet, useNavigate } from "react-router-dom";
  import { AuthContext } from "./AuthProvider";
 
 function Navbar() {
@@ -41,7 +41,7 @@ function Navbar() {
         auth.username ?(
            <h3 id="logo" onClick={()=>navigate('/')}>WELCOME <p id="username" className="ms-2 ">{auth.username.toUpperCase()}</p> </h3>
         ):(
-          <h3 id="logo">Welcome</h3>
+          <h3 id="logo" onClick={()=>navigate('/')}>Welcome</h3>
         )
       }
 
@@ -56,7 +56,7 @@ function Navbar() {
                        className="form-control"
                         />
               </li>
-                <li onClick={handelnavbar}> Aboutus </li>
+               <NavLink to="/aboutus" className={"textdark"}><li onClick={handelnavbar}>Aboutus  </li></NavLink>
                 <li onClick={handelnavbar}>Favourite</li>
 
                 {
