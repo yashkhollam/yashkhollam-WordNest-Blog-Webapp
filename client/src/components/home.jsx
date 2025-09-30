@@ -6,6 +6,8 @@ import React, {useState,useEffect } from 'react'
     import '../css/home2.css'
 function Home() {
 
+const apiurl=import.meta.env.VITE_API_URL;
+
 const [blogdata,setBlogdata]=useState([])
 const[hover,setHover]=useState(null)
  const navigate=useNavigate()
@@ -18,8 +20,8 @@ const viewblog=(blogId)=>{
 useEffect(()=>{
   const getblogData=async()=>{
     try{
-     const response=await axios.get('http://localhost:7878/blog/getallblogs')
-
+    //  const response=await axios.get('http://localhost:7878/blog/getallblogs')
+     const response=await axios.get(`${apiurl}/blog/getallblogs`)
     
     console.log(response.data)
     setBlogdata(response.data.data)

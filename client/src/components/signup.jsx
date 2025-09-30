@@ -8,6 +8,9 @@ import image from '../assets/signupimg.jpg'
 
 
 function Signup() {
+
+  const apiurl=import.meta.env.VITE_API_URL;
+
   const data = {
     username: "",
     email: "",
@@ -26,7 +29,10 @@ function Signup() {
   e.preventDefault();
    try{
    
-     const response=await axios.post(`http://localhost:7878/auth/signup` 
+    //  const response=await axios.post(`http://localhost:7878/auth/signup` 
+    //   ,input)
+
+  const response=await axios.post(`${apiurl}/auth/signup` 
       ,input)
 
     toast.success("Signup Successfully")

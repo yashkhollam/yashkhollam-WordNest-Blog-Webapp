@@ -12,6 +12,9 @@ import { useRef } from 'react'
 
 
 function EditBlog() {
+
+  const apiurl=import.meta.env.VITE_API_URL;
+
  const {id}=useParams()
 
 
@@ -40,7 +43,8 @@ else{
 
 useEffect(()=>{
    const fetchblogdata=async()=>{
-  const response=await axios.get(`http://localhost:7878/blog/viewblog/${id}`)
+  // const response=await axios.get(`http://localhost:7878/blog/viewblog/${id}`)
+   const response=await axios.get(`${apiurl}/blog/viewblog/${id}`)
 
   console.log(response.data.data)
   const data=response.data.data

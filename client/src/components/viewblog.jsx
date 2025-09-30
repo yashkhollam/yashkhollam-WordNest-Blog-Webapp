@@ -6,6 +6,9 @@ import '../css/viewblog1.css'
  import { AuthContext } from "./AuthProvider";
 
 function Viewblog() {
+
+  const apiurl=import.meta.env.VITE_API_URL;
+
   const navigate=useNavigate()
   const {auth}=useContext(AuthContext);
     const [blog,setBlog]=useState([])
@@ -17,7 +20,9 @@ function Viewblog() {
     useEffect(()=>{
         const viewBlog=async()=>{
           try{
-            const response=await axios.get(`http://localhost:7878/blog/viewblog/${id}`)
+            // const response=await axios.get(`http://localhost:7878/blog/viewblog/${id}`)
+
+             const response=await axios.get(`${apiurl}/blog/viewblog/${id}`)
            
             console.log(response.data.data)
             const result=response.data.data;

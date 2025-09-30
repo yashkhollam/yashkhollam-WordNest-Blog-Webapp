@@ -4,8 +4,8 @@ dotenv.config()
 const ConnectMD=async()=>{
     try{
         await mongoose.connect(process.env.MongoDB)
-        // console.log("MongoDB Atlas Connected Suceessfully atlas")
-          console.log("MongoDB  Connected Suceessfully ")  
+         console.log("MongoDB Atlas Connected Suceessfully atlas")
+        //   console.log("MongoDB  Connected Suceessfully ")  
 
     }
     catch(err){

@@ -8,6 +8,9 @@ import { data, useNavigate } from 'react-router-dom';
 
 
 function Myblogs() {
+
+  const apiurl=import.meta.env.VITE_API_URL;
+
 const {auth}=useContext(AuthContext)
  const[blogdata,setblogData]=useState([])
  const[loading,setLoading]=useState(false)
@@ -19,7 +22,7 @@ const {auth}=useContext(AuthContext)
       try{
        
      
-      const response=await axios.get(`http://localhost:7878/blog/myblogs`
+      const response=await axios.get(`${apiurl}/blog/myblogs`
         ,{
         headers:{
           Authorization:`Bearer ${auth.token}`

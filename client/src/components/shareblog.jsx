@@ -5,6 +5,8 @@ import '../css/shareblog.css'
 import { AuthContext } from './AuthProvider'
 
 function Shareblogs() {
+ const apiurl=import.meta.env.VITE_API_URL;
+
   const {auth}=useContext(AuthContext)
 const data={title:"",category:"",description:"",image:""}
 
@@ -46,7 +48,8 @@ const data={title:"",category:"",description:"",image:""}
   return;
 }
        
-        const response=await axios.post(`http://localhost:7878/blog/createblog`
+        // const response=await axios.post(`http://localhost:7878/blog/createblog`
+         const response=await axios.post(`${apiurl}/blog/createblog`
           ,formdata
           ,{
           headers:{

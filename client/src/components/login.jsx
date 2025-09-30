@@ -7,6 +7,9 @@ import { AuthContext } from './AuthProvider'
 
 
 function Login() {
+ 
+  const apiurl=import.meta.env.VITE_API_URL;
+
   const {setAuth}=useContext(AuthContext)
 const navigate=useNavigate()
 
@@ -26,7 +29,7 @@ const submitdata=async(e)=>{
   e.preventDefault()
   try{
      
-     const response=await axios.post(` http://localhost:7878/auth/login`,input)
+     const response=await axios.post(`${apiurl}/auth/login`,input)
      
 
   const result=response.data
