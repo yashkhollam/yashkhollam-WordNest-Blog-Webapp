@@ -3,7 +3,7 @@ const dotenv=require('dotenv')
 dotenv.config()
 const ConnectMD=async()=>{
     try{
-        await mongoose.connect(process.env.MongoDB)
+        await mongoose.connect(process.env.MONGODB_URI)
          console.log("MongoDB Atlas Connected Suceessfully atlas")
         //   console.log("MongoDB  Connected Suceessfully ")  
 
