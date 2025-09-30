@@ -221,7 +221,16 @@ const updateblog=async(req,res)=>{
 const deleteblogbyId=async(req,res)=>{
     try{
     
-        const existdata=await blogModel.findById(req.params.id)
+        const existdata=await blogModel.findById(req.params.id);
+
+        
+if (!existdata) {
+    return res.status(404).json({
+        success: false,
+        message: "Blog not found",
+    });
+}
+
         const {public_id}=existdata
         if(!public_id){
               return res.status(401).json({

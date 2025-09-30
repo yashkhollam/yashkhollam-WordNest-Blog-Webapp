@@ -29,8 +29,9 @@ const submitdata=async(e)=>{
   e.preventDefault()
   try{
      
-     const response=await axios.post(`${apiurl}/auth/login`,input)
+     const response=await axios.post(`${apiurl}/auth/login`,input);
      
+    
 
   const result=response.data
    console.log(result)

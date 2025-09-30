@@ -6,9 +6,9 @@ function AuthProvider({ children }) {
  
  
   const[auth,setAuth]=useState({
-  username:localStorage.getItem('username' ||""),
-  token:localStorage.getItem('token' ||""),
-  userId:localStorage.getItem('userId' ||"")
+  username:localStorage.getItem('username') ||"",
+  token:localStorage.getItem('token' )||"",
+  userId:localStorage.getItem('userId' )||""
 })
 
 
