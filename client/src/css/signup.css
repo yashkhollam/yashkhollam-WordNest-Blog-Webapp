@@ -1,0 +1,92 @@
+/* #forms{
+    border: 1px solid black !important;
+    width:200px
+};
+
+#col1{
+    width:400px !important;
+} */
+
+
+/* 
+.form-container {
+  min-height: 100%;
+}
+
+/* Optional: Add height control to image side too */
+/* .bg-danger {
+  min-height: 500px;
+} */
+
+/* Responsive tweak for smaller screens 
+@media (max-width: 768px) {
+  .bg-danger, .form-container {
+    min-height: auto;
+  }
+} */
+
+/* 
+#label{
+  font-size:1.2rem;
+}
+
+#form-image{
+  width:100%;
+  object-fit:cover;
+ 
+}
+
+@media only screen and (max-width:768px) {
+  #form-container{
+  position: absolute;
+ 
+}
+} */
+
+
+#heading{
+  text-align: center;
+   font-family:"Poppins", sans-serif; 
+    /* font-weight: bold; */
+   color: #3b82f6;
+  padding: 30px;
+ 
+}
+
+.form-label{
+   font-family:"Poppins", sans-serif; 
+   font-size: 1.2rem;
+}
+
+#signup-cont{
+  /* background-color: red; */
+  
+}
+
+#signup-row{
+  /* background-color: yellow; */
+  max-width:450px;
+  min-height:500px;
+  margin:0 auto;
+  box-shadow:0 0 10px rgba(128, 128, 128, 0.364);
+ 
+}
+
+#form-signupbtn{
+   font-family:"Poppins", sans-serif; 
+   background-color: #3b82f6;
+   color: white;
+}
+
+
+
+form span {
+   font-family:"Poppins", sans-serif;
+    /* background-color: red; */
+    margin-top:20px;
+    display: inline-block;
+
+  
+}
+
+
