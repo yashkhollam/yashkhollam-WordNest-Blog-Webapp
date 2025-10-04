@@ -57,7 +57,7 @@ function Navbar() {
                         />
               </li>
                <NavLink to="/aboutus" style={{textDecoration:"none",color:"black"}} ><li onClick={handelnavbar}>Aboutus  </li></NavLink>
-                <li onClick={handelnavbar}>Favourite</li>
+                <NavLink to="/favourite" style={{textDecoration:"none",color:"black"}}> <li onClick={handelnavbar}>Favourite</li></NavLink>
 
                 {
                   auth.username ?(
