@@ -3,7 +3,8 @@ const dotenv=require('dotenv');
 const  route  = require('./routes/blog_route');
 const ConnectMD = require('./database/db');
 const userroute = require('./routes/userroute');
-const cors =require('cors')
+const cors =require('cors');
+const comment = require('./routes/commentroute');
 
 dotenv.config();
 ConnectMD();
@@ -20,6 +21,7 @@ app.get('/',(req,res)=>{
 
 app.use('/blog',route)
 app.use('/auth',userroute)
+app.use('/comment',comment)
 
 app.listen(PORT,()=>{
     console.log(`Server run ON PORT =${PORT}`)

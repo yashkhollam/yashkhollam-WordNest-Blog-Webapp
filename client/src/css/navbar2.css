@@ -22,7 +22,7 @@
 #nav-container{
     /* background-color:yellow; */
     height:50px;
-   
+
      
    
 }
@@ -185,7 +185,7 @@ margin-top:53px;
 
 
 color:black;
-
+z-index: 99;
 
 
  }

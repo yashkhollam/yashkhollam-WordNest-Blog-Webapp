@@ -56,7 +56,7 @@ function Navbar() {
                        className="form-control"
                         />
               </li>
-               <NavLink to="/aboutus" className={"textdark"}><li onClick={handelnavbar}>Aboutus  </li></NavLink>
+               <NavLink to="/aboutus" style={{textDecoration:"none",color:"black"}} ><li onClick={handelnavbar}>Aboutus  </li></NavLink>
                 <li onClick={handelnavbar}>Favourite</li>
 
                 {

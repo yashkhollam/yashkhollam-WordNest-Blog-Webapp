@@ -19,8 +19,8 @@ import ProctectedRoute from './components/ProctectedRoute';
 
 import Viewblog from './components/viewblog';
 import EditBlog from './components/editblog';
-
-
+import { store } from './components/features/reduxstore';
+import {Provider} from 'react-redux'
 
 const router=createBrowserRouter([
      {
@@ -56,11 +56,11 @@ const router=createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
  <>
-
+   <Provider store={store}>
    <AuthProvider>
      <RouterProvider router={router}/> 
    </AuthProvider>
-    
+   </Provider> 
      
  </>
 )

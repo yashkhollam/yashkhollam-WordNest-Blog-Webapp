@@ -34,7 +34,8 @@ function Aboutus() {
       
       
         <div className="col-12 col-md-6 " id='col-img'>
-          <img className='img-fluid  rounded' src="1000_F_360262037_7rwUYLm6j89qK9PZRudbLRZNr3M8FeqC.jpg" alt="" />
+          <img className='img-fluid  rounded' src="1000_F_360262037_7rwUYLm6j89qK9PZRudbLRZNr3M8FeqC.jpg" alt="" 
+         />
           </div>
 
          
@@ -91,7 +92,10 @@ function Aboutus() {
       
       
         <div className="col-12 col-md-6 " id='col-img'>
-          <img className='img-fluid  rounded' src="447231_712259.webp" alt=""  id='vision-img'/>
+          <img className='img-fluid  rounded' 
+          src="447231_712259.webp" alt=""
+            id='vision-img'
+              />
           </div>
 
          

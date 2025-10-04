@@ -1,6 +1,8 @@
 const blogModel = require('../model/blogSchema.js');
+const userModel=require('../model/userModel.js')
 const cloudinary=require('../database/Cloudinary.js')
 const fs=require('fs');
+const { trace } = require('console');
 
 
 
@@ -262,4 +264,105 @@ if (!existdata) {
     }
 }
 
-module.exports={getallblogs,viewblog,getmyblogs,createblog,updateblog,deleteblogbyId};
+
+const addfavorites=async(req,res)=>{
+    try{
+        const userId=req.user.id;
+        const blogId=req.params.blogId;
+
+        const user=await userModel.findById(userId);
+
+        if(!user){
+            return res.status(401).json({
+                success:false,
+                message:"Please login"
+            })
+        }
+
+
+        if(!user.favorites.includes(blogId)){
+            user.favorites.push(blogId)
+            await user.save();
+
+
+        return res.status(200).json({
+        success:true,
+        message:"add to favorite",
+        data:user.favorites
+       })
+        }
+
+     
+
+    }
+    catch(err){
+        console.log(err)
+         return res.status(500).json({
+        success:false,
+        message:"Internal server problem",
+       
+       })
+    }
+}
+
+
+const getfavoriteblog=async(req,res)=>{
+    try{
+      const userId=req.user.id;
+
+      const user=await userModel.findById(userId).populate("favorites")
+
+      if(!user){
+        return res.status(401).json({
+            success:false,
+            message:"User not found"
+        })
+      }
+
+      return res.status(200).json({
+        success:true,
+        message:"Favorite fetch",
+        data:user.favorites,
+      })
+    }
+    catch(err){
+        console.log(err)
+         return res.status(500).json({
+        success:false,
+        message:"Internal server problem",
+       
+       })
+    }
+}
+
+
+
+const removefavorites=async(req,res)=>{
+    try{
+       const userId=req.user.id;
+       const blogId=req.params.blogId;
+
+       const user=await userModel.findById(userId);
+
+        user.favorites=user.favorites.filter((favId)=>favId.toString()!==blogId)
+
+        await user.save();
+
+        return res.status(200).json({
+            success:true,
+            message:"remove from favorite",
+            data:user.favorites
+        })
+    }
+    catch(err){
+        console.log(err)
+        return res.status(500).json({
+            success:true,
+            message:"Internal server problem",
+            
+        })
+        
+    }
+}
+
+module.exports={getallblogs,viewblog,getmyblogs,createblog,updateblog,deleteblogbyId,addfavorites,removefavorites};

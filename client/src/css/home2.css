@@ -111,6 +111,7 @@
     height:100%;
     width:100%;
     /* background-color: orange; */
+   
     
 }
 
@@ -223,4 +224,26 @@
 #author-name{
  font-family:"Poppins", sans-serif;    
 }
+
+.favirotecontainer{
+    position: absolute;
+    background-color:white;
+    width:40px;
+    height:35px;
  
+   font-size: 1.1rem;
+   text-align: center;
+    border-top-right-radius: 5px;
+   border-bottom-right-radius: 10px;
+   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+    
+}
+ 
+
+#filled-heart{
+    color:pink;
+    
+}

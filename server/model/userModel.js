@@ -12,7 +12,13 @@ const UserSchema=mongoose.Schema({
     password:{
         type:String,
         require:true
+    },
+    favorites:[{
+           type:mongoose.Schema.Types.ObjectId,
+           ref:'blogdata'
     }
+       
+    ]
 })
 
 const userModel=mongoose.model('usermodel',UserSchema)
