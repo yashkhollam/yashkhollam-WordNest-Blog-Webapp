@@ -85,7 +85,7 @@ useEffect(()=>{
       <div className="container-fluid" id="hero-cont">
         <div className="row" id="hero-row">
           <div className="col-sm-12 col-md-6 " id="hero-col1">
-            <h1 id="hero-heading">
+            <h1 id="hero-heading" >
               Share your thoughts with <p>the world</p>{" "}
             </h1>
             <p id="hero-para">

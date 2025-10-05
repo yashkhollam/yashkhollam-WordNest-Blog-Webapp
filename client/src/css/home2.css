@@ -165,36 +165,6 @@
       font-size: 1rem;
 }
 
-/* 
-#author-cont{
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    
-  
-     
-     
-}
-
-#author-label{
-    font-family:"Poppins", sans-serif; 
-    font-weight: bold;
-   color: #3b82f6;
-    
-
-}
-
-
-#card-author1{
-   font-family:"Poppins", sans-serif;
-   background-color:white;
- 
-} 
-
-#author-label{
-    background-color: yellow;
-
-}*/
 
 
 #author-cont1{
@@ -249,4 +219,11 @@
    
     
     
+}
+
+
+@media  only screen and (max-width:770px) {
+    #hero-heading {
+        margin-top:30px;
+    }
 }
