@@ -11,13 +11,13 @@ export const addfavorite=createAsyncThunk('favorite/add',async({blogId,token},{r
     headers:{Authorization:`Bearer ${token}`}
   })
   
-  console.log(response.data,"from slice")
+  //console.log(response.data,"from slice")
    return response.data.data;
     }
 
 
     catch (err) {
-      console.log("Error in addfavorite:", err.response?.data || err.message);
+    console.log("Error in addfavorite:", err.response?.data || err.message);
       return rejectWithValue(err.response?.data || err.message);
     }
 })

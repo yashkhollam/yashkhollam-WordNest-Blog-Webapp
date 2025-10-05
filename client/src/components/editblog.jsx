@@ -29,7 +29,7 @@ const data1={
 const [input,setInput]=useState(data1)
 
 const handleinput=(e)=>{
-  console.log({...input,[e.target.name]:e.target.value})
+  // console.log({...input,[e.target.name]:e.target.value})
 
  const {files,name,value}=e.target
 if(name==="image"){
@@ -46,7 +46,7 @@ useEffect(()=>{
   // const response=await axios.get(`http://localhost:7878/blog/viewblog/${id}`)
    const response=await axios.get(`${apiurl}/blog/viewblog/${id}`)
 
-  console.log(response.data.data)
+  // console.log(response.data.data)
   const data=response.data.data
   setInput({
     title:data.title,
@@ -89,7 +89,7 @@ const refrence=useRef()
     })
     
     
-    console.log(response.data.data)
+    // console.log(response.data.data)
     const {message}=response.data
     toast.success(message)
     }

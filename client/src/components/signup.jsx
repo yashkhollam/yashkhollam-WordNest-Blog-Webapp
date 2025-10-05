@@ -23,7 +23,7 @@ function Signup() {
 
   const handleinput = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
-    console.log({ ...input, [e.target.name]: e.target.value });
+    // console.log({ ...input, [e.target.name]: e.target.value });
   };
 
   const submitdata=async(e)=>{
@@ -42,9 +42,9 @@ function Signup() {
      setInput({username: "",email: "",password: ""})
      const result=response.data
   
-     console.log(result);
+    //  console.log(result);
      const{message}=result
-     console.log(message)
+    //  console.log(message)
      toast.success(message)
       setTimeout(()=>{
         navigate('/login')

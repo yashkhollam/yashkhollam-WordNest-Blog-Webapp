@@ -17,7 +17,7 @@ const data={title:"",category:"",description:"",image:""}
   const handleinput=(e)=>{
    const{name,value,files}=e.target;
     
-    console.log({...input,[name]:value})
+    // console.log({...input,[name]:value})
     
     if(name==="image"){
        setInput({...input,image:files[0]}) 
@@ -66,14 +66,14 @@ const data={title:"",category:"",description:"",image:""}
         toast.success(message)
         clearinput.current.value="";
         setInput({title:"",category:"",description:"",image:""})
-        console.log("Blog created:",response.data)
+        // console.log("Blog created:",response.data)
 
         // return response.data
 
         
     }
     catch(err){
-      console.log(err)
+      // console.log(err) 
       toast.error(err.response.data.message)
     }
     finally{

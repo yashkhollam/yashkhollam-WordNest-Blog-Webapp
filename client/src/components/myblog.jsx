@@ -29,7 +29,7 @@ const {auth}=useContext(AuthContext)
         }
        })
        
-      console.log(response.data.data)
+      // console.log(response.data.data)
       setblogData(response.data.data)
     }
 

@@ -42,8 +42,14 @@ function Home() {
 
   const addtofavorite = (blogId) => {
 
-    if(auth.token&&auth.userId){
-       dispatch(addfavorite({blogId,token:auth.token}));
+    if(!auth.token&&!auth.userId){
+        toast.error(("Please Login"),{
+      icon:"⚠️"
+    })
+    }
+    
+    else{
+          dispatch(addfavorite({blogId,token:auth.token}));
     toast(("Added to favourite"),{
       icon:"❤️"
     })
@@ -52,14 +58,11 @@ function Home() {
   };
 
   const removetofavorite = (blogId) => {
-
-      if(auth.token&&auth.userId){
-           dispatch(removefavorite({blogId,token:auth.token}));
+    
+     dispatch(removefavorite({blogId,token:auth.token}));
      toast(("Remove to favourite"),{
       icon:"🗑️"
     })
-      }
-   
   };
 
 

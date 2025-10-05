@@ -22,7 +22,7 @@ const[loading,setLoading]=useState(false)
 
 const handleinput=(e)=>{
  setinput({...input,[e.target.name]:e.target.value})
- console.log({...input,[e.target.name]:e.target.value});
+//  console.log({...input,[e.target.name]:e.target.value});
  
 }
 
@@ -36,9 +36,9 @@ const submitdata=async(e)=>{
     
 
   const result=response.data
-   console.log(result)
+  //  console.log(result)
   const{message,username,jwttoken,userId}=result
-  console.log(result)
+  // console.log(result)
   toast.success(message);
   
    login({
@@ -52,8 +52,8 @@ const submitdata=async(e)=>{
   }
   
   catch(err){
-    console.log(err)
-    // toast.error(err.response.data.message)
+    // console.log(err)
+     toast.error(err.response.data.message)
   }
 
   finally{
