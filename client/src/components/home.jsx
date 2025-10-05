@@ -8,6 +8,8 @@ import {AuthContext} from '../components/AuthProvider'
 import toast from "react-hot-toast";
 import { getallblogs } from "./features/blogdataslice";
 
+import {Link} from 'react-scroll'
+
 
 
 function Home() {
@@ -90,19 +92,14 @@ useEffect(()=>{
               Share your thoughts with <p>the world</p>{" "}
             </h1>
             <p id="hero-para">
-              Join our community of writers and readers. Discover amazing
-              content or create your own.
+             Explore, read, and write — connect with ideas that inspire and let your own stories reach the world.
             </p>
 
-            <button
-              id="hero-btn-1"
-              onClick={() => {
-                navigate("/shareblog");
-              }}
+            <button id="hero-btn-1" onClick={() => { navigate("/shareblog"); }}
             >
               Start Writing
             </button>
-            <button id="hero-btn-2">Explore Article</button>
+            <button id="hero-btn-2"><Link to="blog-cont1" duration={100}smooth={true}>Explore Article</Link></button>
           </div>
 
           <div className="col-sm-12 col-md-6" id="hero-col2">

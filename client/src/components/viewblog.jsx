@@ -92,7 +92,7 @@ function Viewblog() {
           <span className='blogdata-data'>{blog.category}</span>
 
           <span  className='blogdata-label'>Description :</span>
-          <span className='blogdata-data'>{blog.description}</span>
+          <span className='blogdata-data' >{blog.description}</span>
 
           {/* <span></span> */}
         </div>
