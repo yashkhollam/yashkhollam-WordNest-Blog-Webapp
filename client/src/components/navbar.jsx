@@ -51,11 +51,11 @@ function Navbar() {
               
                <ul  className={`group-items ${isopen ? "mobilecss":" "} `}>
                 
-              <li>
+              {/* <li>
                 <input type="text"
                        className="form-control"
                         />
-              </li>
+              </li> */}
                <NavLink to="/aboutus" style={{textDecoration:"none",color:"black"}} ><li onClick={handelnavbar}>Aboutus  </li></NavLink>
                 <NavLink to="/favourite" style={{textDecoration:"none",color:"black"}}> <li onClick={handelnavbar}>Favourite</li></NavLink>
 

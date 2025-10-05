@@ -15,7 +15,7 @@ function Viewblog() {
     const {id}=useParams();
      const[userId,setUserId]=useState()
 
-    console.log(auth.userId)
+    // console.log(auth.userId)
 
     useEffect(()=>{
         const viewBlog=async()=>{
@@ -66,7 +66,7 @@ function Viewblog() {
  
      
          
-          <div className="col-12 col-md-8 " id='blogdata-container'>
+          <div className="col-12 " id='blogdata-container'>
         
        {
           auth.userId===userId?
@@ -99,10 +99,10 @@ function Viewblog() {
 
        </div> 
         
-        <div className="col-12 col-md-4 border" id='blogcomment-container'>comment
+        {/* <div className="col-12 col-md-4 border" id='blogcomment-container'>comment
 
           
-         </div>
+         </div> */}
 
        
 

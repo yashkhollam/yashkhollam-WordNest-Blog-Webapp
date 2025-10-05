@@ -6,13 +6,14 @@ import { useNavigate } from "react-router-dom";
 import "../css/home2.css";
 import {AuthContext} from '../components/AuthProvider'
 import toast from "react-hot-toast";
+import { getallblogs } from "./features/blogdataslice";
 
 
 
 function Home() {
-  const apiurl = import.meta.env.VITE_API_URL;
+  // const apiurl = import.meta.env.VITE_API_URL;
   const {auth}=useContext(AuthContext)
-  const [blogdata, setBlogdata] = useState([]);
+  // const [blogdata, setBlogdata] = useState([]);
   const [hover, setHover] = useState(null);
   // const [isfavorite, setIsfavorite] = useState([]);
 
@@ -20,25 +21,30 @@ function Home() {
   const dispatch = useDispatch();
 
   const {favourite}=useSelector((state)=>state.favoriteblog)
+  const{blog}=useSelector((state)=>state.blogdata)
 
   const viewblog = (blogId) => {
     navigate(`/viewblog/${blogId}`);
   };
 
-  useEffect(() => {
-    const getblogData = async () => {
-      try {
-        //  const response=await axios.get('http://localhost:7878/blog/getallblogs')
-        const response = await axios.get(`${apiurl}/blog/getallblogs`);
+  // useEffect(() => {
+  //   const getblogData = async () => {
+  //     try {
+  //       //  const response=await axios.get('http://localhost:7878/blog/getallblogs')
+  //       const response = await axios.get(`${apiurl}/blog/getallblogs`);
 
        
-        setBlogdata(response.data.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getblogData();
-  }, []);
+  //       setBlogdata(response.data.data);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
+  //   getblogData();
+  // }, []);
+
+useEffect(()=>{
+  dispatch(getallblogs())
+},[dispatch])
 
   const addtofavorite = (blogId) => {
 
@@ -111,8 +117,8 @@ function Home() {
 
       <div className="container-fluid" id="blog-cont1">
         <div className="row  " id="blog-row1">
-          {Array.isArray(blogdata) && blogdata.length > 0 ? (
-            blogdata.map((data, index) => (
+          {Array.isArray(blog) && blog.length > 0 ? (
+            blog.map((data, index) => (
               <div className=" " key={data._id} id="blog-container1">
                 <div className="card " id="blog-card1" key={data._id}>
                   <img
