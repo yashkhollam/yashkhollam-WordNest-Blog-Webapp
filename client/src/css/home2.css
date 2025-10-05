@@ -200,12 +200,12 @@
 #author-cont1{
     background-color:rgba(128, 128, 128, 0.444);
     display: flex;
-    /* border-bottom-left-radius:5px ; */
-    width:130px;
+    
+    width:max-content;
      margin:5px 0 0 5px;
      gap:10px;
-     /* bottom:0; */
-     padding: 3px 5px;
+     
+     padding: 3px 10px;
 
 }
 
