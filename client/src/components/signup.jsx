@@ -10,6 +10,7 @@ import image from '../assets/signupimg.jpg'
 function Signup() {
 
   const apiurl=import.meta.env.VITE_API_URL;
+    const [loading,setLoading]=useState(false)
 
   const data = {
     username: "",
@@ -32,6 +33,8 @@ function Signup() {
     //  const response=await axios.post(`http://localhost:7878/auth/signup` 
     //   ,input)
 
+    setLoading(true)
+
   const response=await axios.post(`${apiurl}/auth/signup` 
       ,input)
 
@@ -40,7 +43,7 @@ function Signup() {
      const result=response.data
   
      console.log(result);
-     const{success,message}=result
+     const{message}=result
      console.log(message)
      toast.success(message)
       setTimeout(()=>{
@@ -55,6 +58,10 @@ function Signup() {
    catch(err){
     toast.error(err.response.data.message||"Someting went wrong")
    } 
+
+   finally{
+    setLoading(false)
+   }
    }
 
   
@@ -62,6 +69,16 @@ function Signup() {
 
   return (
     <>
+
+     {
+      loading&&(
+        <div id='spinner-container'>
+           <div className="spinner-border text-primary " role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+        </div>
+      )
+     }
 <div className="container-fluid " id="signup-cont">
   <div className="row mt-5" id="signup-row">
     <div className="col-12" id="signup-col">

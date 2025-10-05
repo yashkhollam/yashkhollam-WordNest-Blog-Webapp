@@ -44,7 +44,10 @@ const data={title:"",category:"",description:"",image:""}
         
 
         if (!input.image) {
-  alert("Please select an image before submitting.");
+  toast(("Please select an image before submitting."),{
+    icon:"⚠️",
+    
+  });
   return;
 }
        

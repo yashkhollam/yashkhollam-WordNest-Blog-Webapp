@@ -1,6 +1,6 @@
 const express=require('express')
 const route=express.Router()
-const { createblog, getallblogs, updateblog, deleteblogbyId, getmyblogs, viewblog, addfavorites, removefavorites, } = require('../controller/blogsController')
+const { createblog, getallblogs, updateblog, deleteblogbyId, getmyblogs, viewblog, addfavorites, removefavorites, getfavoriteblog, } = require('../controller/blogsController')
 const upload=require('../Middleware/imgClodmiddleware');
 const verifyToken = require('../Middleware/authantication');
 
@@ -13,7 +13,7 @@ route.patch('/updateblog/:id',upload.single('image'),updateblog)
 route.delete('/deleteblog/:id',deleteblogbyId)
 
 route.post('/addfavorite/:blogId',verifyToken,addfavorites);
-
+route.get('/getfavoriteblog/:userId',verifyToken,getfavoriteblog)
 route.delete('/removefavorite/:blogId',verifyToken,removefavorites)
 
 

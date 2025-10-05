@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { useDispatch } from "react-redux";
-import { addfavorite, removefavorite } from "./features/favouriteblogslice";
+import { useDispatch, useSelector } from "react-redux";
+import { addfavorite, removefavorite,getfavouriteblog } from "./features/favouriteblogslice";
 import { useNavigate } from "react-router-dom";
 import "../css/home2.css";
 import {AuthContext} from '../components/AuthProvider'
+import toast from "react-hot-toast";
 
 
 
@@ -13,10 +14,12 @@ function Home() {
   const {auth}=useContext(AuthContext)
   const [blogdata, setBlogdata] = useState([]);
   const [hover, setHover] = useState(null);
-  const [isfavorite, setIsfavorite] = useState([]);
+  // const [isfavorite, setIsfavorite] = useState([]);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const {favourite}=useSelector((state)=>state.favoriteblog)
 
   const viewblog = (blogId) => {
     navigate(`/viewblog/${blogId}`);
@@ -28,7 +31,7 @@ function Home() {
         //  const response=await axios.get('http://localhost:7878/blog/getallblogs')
         const response = await axios.get(`${apiurl}/blog/getallblogs`);
 
-        console.log(response.data);
+       
         setBlogdata(response.data.data);
       } catch (err) {
         console.log(err);
@@ -38,16 +41,27 @@ function Home() {
   }, []);
 
   const addtofavorite = (blogId) => {
-    if (!isfavorite.includes(blogId)) {
-      setIsfavorite([...isfavorite, blogId]);
-      dispatch(addfavorite({blogId,token:auth.token}));
-    }
+    dispatch(addfavorite({blogId,token:auth.token}));
+    toast(("Added to favourite"),{
+      icon:"❤️"
+    })
   };
 
   const removetofavorite = (blogId) => {
-    setIsfavorite(isfavorite.filter((id) => id !== blogId));
      dispatch(removefavorite({blogId,token:auth.token}));
+     toast(("Remove to favourite"),{
+      icon:"🗑️"
+    })
   };
+
+
+  useEffect(()=>{
+    dispatch(getfavouriteblog({userId:auth.userId,token:auth.token}))
+  },[dispatch,auth])
+
+
+
+  
 
   return (
     <>
@@ -136,9 +150,10 @@ function Home() {
                   </div>
 
                   <div className="favirotecontainer">
-                    {isfavorite.includes(data._id) ? (
+                    {Array.isArray(favourite)&&favourite.some(blog=>blog._id===data._id)? (
                       <i
-                        className="bi bi-arrow-through-heart"
+                        className="bi-heart-fill"
+                        id="favfillicon"
                         onClick={() => {
                           removetofavorite(data._id);
                         }}

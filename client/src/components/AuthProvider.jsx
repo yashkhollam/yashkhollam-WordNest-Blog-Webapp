@@ -5,44 +5,36 @@ export const AuthContext = createContext();
 function AuthProvider({ children }) {
  
  
-  const[auth,setAuth]=useState({
+  const[auth,setAuth]=useState(()=>({
   username:localStorage.getItem('username') ||"",
   token:localStorage.getItem('token' )||"",
   userId:localStorage.getItem('userId' )||""
-})
+}));
 
 
-  useEffect(()=>{
-     
+  
+     const login=({username,token,userId})=>{
 
-      if(auth.username&&auth.token){
-        localStorage.setItem('username',auth.username)
-        localStorage.setItem('token',auth.token),
-         localStorage.setItem('userId',auth.userId)
-      }
+      setAuth({username,token,userId});
+        localStorage.setItem('username',username)
+        localStorage.setItem('token',token),
+         localStorage.setItem('userId',userId)
+     }
 
-      else{
-          localStorage.removeItem('username')
-        localStorage.removeItem('token')
-         localStorage.removeItem('userId')
-
-      }
-
-    
-  },[auth])
  
 
   
 
   const logout=()=>{
+     setAuth({username:"",token:"",userId:""})
     localStorage.removeItem('username')
     localStorage.removeItem('token')
        localStorage.removeItem('userId')
-    setAuth({username:"",token:"",userId:""})
+   
   }
 
   return (
-    <AuthContext.Provider value={{auth,setAuth,logout}}>
+    <AuthContext.Provider value={{auth,login,logout}}>
       {children}
     </AuthContext.Provider>
   );

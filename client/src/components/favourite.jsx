@@ -1,20 +1,40 @@
-import React from 'react';
-import {useSelector} from 'react-redux'
+import React, { useContext, useEffect } from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import { getfavouriteblog } from './features/favouriteblogslice';
 import "../css/home2.css";
+import { AuthContext } from './AuthProvider';
 
 
 
 function Favourite() {
 
-const {favourite,error,loading}=useSelector((state)=>state.favoriteblog)
+const {favourite,loading,error}=useSelector((state)=>state.favoriteblog)
+
+const {auth}=useContext(AuthContext)
+const dispatch=useDispatch();
 
 
- if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+
+  
+
+
+   
+
+ useEffect(() => {
+  if (!auth?.token || !auth?.userId) return; // wait until auth is ready
+  console.log(favourite)
+  dispatch(getfavouriteblog({ userId: auth.userId, token: auth.token }));
+}, [dispatch, auth?.token, auth?.userId]);
+
+
+
+if (loading) return <p>Loading...</p>;
+   if (error) return <p>Error: {error}</p>;
+
 
   return (
      <div className="container-fluid" id="blog-cont1">
-        <div className="row  " id="blog-row1">
+        <div className="row" id="blog-row1">
           {Array.isArray(favourite) && favourite.length > 0 ? (
             favourite.map((data, index) => (
               <div className=" " key={data._id} id="blog-container1">

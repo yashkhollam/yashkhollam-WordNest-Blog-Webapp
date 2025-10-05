@@ -12,7 +12,7 @@ function Navbar() {
  
   const handelnavbar = () => {
     setisopen(!isopen);
-    console.log(isopen)
+  
     
    };
 

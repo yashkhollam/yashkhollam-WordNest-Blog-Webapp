@@ -10,7 +10,7 @@ function Login() {
  
   const apiurl=import.meta.env.VITE_API_URL;
 
-  const {setAuth}=useContext(AuthContext)
+  const {login}=useContext(AuthContext)
 const navigate=useNavigate()
 
 const data={
@@ -18,6 +18,7 @@ const data={
   password:""
 }
 const[input,setinput]=useState(data)
+const[loading,setLoading]=useState(false)
 
 const handleinput=(e)=>{
  setinput({...input,[e.target.name]:e.target.value})
@@ -29,6 +30,7 @@ const submitdata=async(e)=>{
   e.preventDefault()
   try{
      
+    setLoading(true)
      const response=await axios.post(`${apiurl}/auth/login`,input);
      
     
@@ -38,11 +40,8 @@ const submitdata=async(e)=>{
   const{message,username,jwttoken,userId}=result
   console.log(result)
   toast.success(message);
-  localStorage.setItem('token',jwttoken);
-  localStorage.setItem('username',username);
-  localStorage.setItem('userId',userId);
-
-   setAuth({
+  
+   login({
     username:username,
     token:jwttoken,
     userId:userId
@@ -54,11 +53,27 @@ const submitdata=async(e)=>{
   
   catch(err){
     console.log(err)
-    toast.error(err.response.data.message)
+    // toast.error(err.response.data.message)
+  }
+
+  finally{
+    setLoading(false)
   }
 }
 
   return (
+  <>
+     {
+      loading&&(
+        <div id='spinner-container'>
+           <div className="spinner-border text-primary " role="status">
+             
+            </div>
+        </div>
+      )
+     }
+
+
     <div className="container-fluid " id="signup-cont">
   <div className="row mt-5" id="signup-row">
     <div className="col-12" id="signup-col">
@@ -83,7 +98,9 @@ const submitdata=async(e)=>{
     </div>
   </div>
 </div>
+</>
   )
+  
 }
 
 export default Login

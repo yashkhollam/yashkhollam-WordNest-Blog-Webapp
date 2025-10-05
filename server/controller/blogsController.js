@@ -267,7 +267,8 @@ if (!existdata) {
 
 const addfavorites=async(req,res)=>{
     try{
-        const userId=req.user.id;
+         const userId=req.user.id;
+        // const {userId}=req.body;
         const blogId=req.params.blogId;
 
         const user=await userModel.findById(userId);
@@ -285,10 +286,17 @@ const addfavorites=async(req,res)=>{
             await user.save();
 
 
+
+            //fetch full blog details
+
+            const blog=await blogModel.findById(blogId);
+
+
         return res.status(200).json({
         success:true,
         message:"add to favorite",
-        data:user.favorites
+        // data:user.favorites
+        data:blog,
        })
         }
 
@@ -309,6 +317,7 @@ const addfavorites=async(req,res)=>{
 const getfavoriteblog=async(req,res)=>{
     try{
       const userId=req.user.id;
+     //const{userId}=req.params;
 
       const user=await userModel.findById(userId).populate("favorites")
 
@@ -357,7 +366,7 @@ const removefavorites=async(req,res)=>{
     catch(err){
         console.log(err)
         return res.status(500).json({
-            success:true,
+            success:false,
             message:"Internal server problem",
             
         })
@@ -365,4 +374,4 @@ const removefavorites=async(req,res)=>{
     }
 }
 
-module.exports={getallblogs,viewblog,getmyblogs,createblog,updateblog,deleteblogbyId,addfavorites,removefavorites};
+module.exports={getallblogs,viewblog,getmyblogs,createblog,updateblog,deleteblogbyId,addfavorites,removefavorites,getfavoriteblog};
