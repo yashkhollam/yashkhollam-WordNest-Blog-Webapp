@@ -24,7 +24,7 @@ function Viewblog() {
 
              const response=await axios.get(`${apiurl}/blog/viewblog/${id}`)
            
-            console.log(response.data.data)
+            // console.log(response.data.data)
             const result=response.data.data;
             const {createdBy}=result;
             setUserId(createdBy)
@@ -44,10 +44,17 @@ function Viewblog() {
     }
 
     const deleteblog=async(blogId)=>{
-      await axios.delete(`http://localhost:7878/blog/deleteblog/${blogId}`)
+      try{
+          await axios.delete(`${apiurl}/blog/deleteblog/${blogId}`)
        
-      setBlog(prev=>prev.filter((item)=>item._id!==blogId))
+        setBlog(prev=>prev.filter((item)=>item._id!==blogId))
+      
        toast.success("Blog deleted successfully")
+       navigate('/',{replace:true})
+      }
+     catch(err){
+      console.log(err)
+     }
      
     }
 
