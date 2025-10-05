@@ -21,7 +21,7 @@ function Home() {
   const dispatch = useDispatch();
 
   const {favourite}=useSelector((state)=>state.favoriteblog)
-  const{blog}=useSelector((state)=>state.blogdata)
+  const{blog,loading,error}=useSelector((state)=>state.blogdata)
 
   const viewblog = (blogId) => {
     navigate(`/viewblog/${blogId}`);
@@ -78,7 +78,8 @@ useEffect(()=>{
 
 
 
-  
+ if(loading) return <h3>Loading Blog data....</h3>
+ if(error) return <h3>failed to fetch blogs {error}</h3>
 
   return (
     <>
