@@ -1,15 +1,17 @@
 
 #blogcontainer{
     position: absolute;
-    margin-top:90px;
+    margin-top:50px;
+  
 }
 
 #row-con{
-    margin:20px 0 0 10px;
+    margin:0px 0 0 0px;
    gap:10px;
-   /* border:1px solid black; */
+
    display: flex;
    justify-content: center !important;
+ 
   
 }
 #blog-container1{
