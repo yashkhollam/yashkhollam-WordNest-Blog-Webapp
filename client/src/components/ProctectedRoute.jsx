@@ -1,19 +1,26 @@
-import React, { useContext, useEffect } from 'react'
-import { AuthContext } from './AuthProvider'
-import { Navigate } from 'react-router-dom'
+import React, { useEffect } from 'react'
+
+import { Navigate} from 'react-router-dom'
 import {toast} from 'react-hot-toast'
+import {useSelector} from 'react-redux'
+import Loader from './loader'
 
 function ProctectedRoute({children}) {
-    const{auth}=useContext(AuthContext)
-   
-   if(!auth.token){
-       toast("Please login!",{
-        icon:'⚠️'
-       })
 
-      return  <Navigate to='/login' replace/>
-    }
+  const {user,isAuthenticated,isauthChecked}=useSelector((state)=>state.userAuth) 
+  
+if(!isauthChecked){
+  return  <Loader/>
+
+}
+
+  if(!isAuthenticated){
+    toast("please login to continue",{
+      icon:"⚠️⚠️"
+    })
+    return  <Navigate to='/' replace={true}/>
     
+  }
 
   return (
     <>

@@ -1,10 +1,15 @@
-const express=require('express')
-const {SignUp,Login} = require('../controller/userController')
 
+import {Router} from 'express'
+import {SignUp} from '../controller/userAuthentication/signup.js'
+import {Login} from '../controller/userAuthentication/login.js'
+import { getme } from '../controller/userAuthentication/getme.js'
+import { userAuthMiddleware } from '../Middleware/userAuthentication.js'
+import { Logout } from '../controller/userAuthentication/logout.js'
 
-const userroute=express.Router()
+export const userAuthroute=Router()
 
-userroute.post('/signup',SignUp)
-userroute.post('/login',Login)
+userAuthroute.post('/signup',SignUp)
+userAuthroute.post('/login',Login)
+userAuthroute.post('/logout',userAuthMiddleware,Logout)
+userAuthroute.get('/getme',userAuthMiddleware,getme)
 
-module.exports=userroute

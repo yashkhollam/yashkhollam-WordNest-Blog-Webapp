@@ -1,49 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useContext } from 'react';
-import { AuthContext } from './AuthProvider';
-import '../css/myblogs.css'
+
+import {useDispatch,useSelector} from 'react-redux'
+
 import {toast} from 'react-hot-toast';
-import { data, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { userblogthunk } from './redux/features/blogdataslice';
+import '../css/cards.css';
+import Blogskeletonecard from './skeletoncard/blogskeletonecard';
 
 
 function Myblogs() {
 
-  const apiurl=import.meta.env.VITE_API_URL;
-
-const {auth}=useContext(AuthContext)
- const[blogdata,setblogData]=useState([])
- const[loading,setLoading]=useState(false)
- const [hover,setHover]=useState(null)
-
-  useEffect(()=>{
+  const dispatch=useDispatch()
+  const {userblogs,loading}=useSelector((state)=>state.blogdata) 
   
-    const fetchdatabuId=async()=>{
-      try{
-       
+
+ 
+
+ useEffect(()=>{
+     dispatch(userblogthunk())
      
-      const response=await axios.get(`${apiurl}/blog/myblogs`
-        ,{
-        headers:{
-          Authorization:`Bearer ${auth.token}`
-        }
-       })
-       
-      // console.log(response.data.data)
-      setblogData(response.data.data)
-    }
-
-    catch(err){
-    console.log(err)
-  }
-
-  finally{
-      setLoading(false) 
-    }
-  };
-  
-  fetchdatabuId();
-  },[auth])
+ },[dispatch])
 
   const navigate=useNavigate()
 
@@ -51,48 +28,98 @@ const {auth}=useContext(AuthContext)
     navigate(`/viewblog/${blogId}`)
   }
 
+const formatedDate=[]
 
+ for ( let blog of userblogs){
+  console.log("my blog =",blog.createdAt)
+
+
+  const data=new Date(blog.createdAt)
+   formatedDate.push(data.toLocaleDateString('en-GB',{
+    day:"2-digit",
+    month:"short",
+    year:"numeric"
+   }))
+  }
+
+ 
 
   return(
     <>
-
+ 
    
-        {loading && (
-          <div id="spinner-container">
-            <div className="spinner-border text-primary" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
-          </div>
-        )}
             
-      <div className="container-fluid " id='blogcontainer'>
-        <div className="row w-100" id='row-con'>
+     <div className="container-fluid  blogcardcontainer" 
+          style={{marginTop:"90px"}}>
+        <div className="row blog_row" >
+
+           <h1 style={{fontFamily:"cursive",textAlign:"center",fontWeight:"bold"}}>My Blogs</h1>
         
-             
-             { 
-              
+              <div className="card_warpper">
 
-             !loading && Array.isArray(blogdata)&& blogdata.length>0?(
-              blogdata.map((data,index)=>(
-                
-                
-                 <div className=" " key={data._id} id='blog-container1'>
-
-                  <div className="card " id='blog-card1' key={data._id}>
-                     <img src={data.imgurl} alt="blogimg" className='img-fluid' id='blogimg1'/>
+                {
+                   loading.userblogloading ? (
+                   
+                    new Array(6).fill(8).map(()=>(
+                        <div>
+                           <Blogskeletonecard/>
+                        </div>
+                    ))
                   
-                   <p className='cardtext' id='card-createddata1'>{data.createddata}</p>
-                  <p className='cardtitle' id='card-title1'>{data.title}</p>
-                  <p className='cardtext' id='card-description1'>{data.description.slice(0,100)}</p>
-
-                  <div id="author-cont1">
-                    <p className='m-0 p-0' id='author-label'>author :</p>
-                    <p className='m-0 p-0' id='author-name'>{data.author.toUpperCase()}</p>
+                  )
+                
+               :    
+              userblogs?.length>0?(
+              userblogs.map((data,index)=>(
+                
+                  <div className="blog_card" key={data._id}>
+                  
+                  <div className="uppercontainer">
+                     <p className="card_createddata">
+                    {
+                      formatedDate[index]
+                    }
+                  </p> 
 
                   </div>
-               
+                 
 
-                <div 
+                  <img
+                    src={data?.imgurl}
+                    alt="blogimg"
+                     loading="lazy"
+                    className="blogimg"
+                  />
+ 
+                  
+                      <p className="card-title">
+                    {data.title}
+                  </p>
+                  <p className="card-description">
+                    {data.description.slice(0, 100)}....
+                  </p>
+
+                  {/* <div className="author_cont">
+                    <p className="m-0 p-0 author_label">
+                      author :
+                    </p>
+                    <p className="m-0 p-0 author_name">
+                      {data.author.toUpperCase()}
+                    </p>
+                  </div> */}
+
+                 <button className="viewbtn"
+                 onClick={()=>viewblog(data._id)}>View</button>
+                 
+              </div>
+                 
+              ))
+            ):( <h1>No blog yet</h1>)
+             }
+              </div>
+             
+              
+              {/*   <div 
                     onMouseEnter={()=>setHover(data._id)} 
                     onMouseLeave={()=>{setHover(null)}} 
                     id='viewbtn1'>
@@ -101,20 +128,7 @@ const {auth}=useContext(AuthContext)
                   ?<i class="bi bi-eye-fill" onClick={()=>{viewblog(data._id)}}></i>
                   :<i class="bi bi-eye" id='' ></i>}
                   </div> 
-                  
-                  
-                  </div>
-                
-                  
-                 
-              
-               
-              
-                </div>
-              ))
-            ):(  !loading&&<h1>No blog yet</h1>)
-             }
-              
+                   */}
             
           </div>
         

@@ -1,0 +1,82 @@
+
+
+.skeletonblog_card{
+   min-height:340px;
+    width: 320px;
+    border-radius: 10px;
+    box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.366);
+    position: relative;
+}
+
+.skeletonblogimg{
+     height:170px;
+    width:100%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+   
+    background:linear-gradient(90deg, #e0e0e0 25%,
+    #f5f5f5 50%,
+    #e0e0e0 75%);
+    background-size: 400px 100%;
+    animation:skeletonblogimg 2s infinite linear;
+
+}
+
+.skeletoncard-title{
+    
+     margin:8px 8px 0 8px;
+      height:25px;
+      background-color:rgba(128, 128, 128, 0.275);
+       background:linear-gradient(90deg, #e0e0e0 25%,
+    #f5f5f5 50%,
+    #e0e0e0 75%);
+      background-size: 400px 100%;
+    animation:skeletonblogimg 2s infinite linear;
+}  
+
+.skeletoncard-description{
+     margin:8px 8px 0 8px;
+      height:85px;
+      background-color:rgba(128, 128, 128, 0.275); 
+       background:linear-gradient(90deg, #e0e0e0 25%,
+    #f5f5f5 50%,
+    #e0e0e0 75%);
+      background-size: 400px 100%;
+    animation:skeletonblogimg 2s infinite linear;
+}
+
+
+.skeletonviewbtn{
+     background-color:rgba(128, 128, 128, 0.275); 
+   
+    height:35px;
+     background:linear-gradient(90deg, #e0e0e0 25%,
+    #f5f5f5 50%,
+    #e0e0e0 75%);
+      background-size: 400px 100%;
+    animation:skeletonblogimg 2s infinite linear;
+   
+    
+   
+    width:100%; 
+    border-bottom-right-radius:10px ;
+    border-bottom-left-radius:10px ;
+    border: none;
+    position: absolute;
+   bottom:0;
+}
+
+@keyframes skeletonblogimg{
+   0%{
+     
+      
+      background-position:-200px 0;
+   }
+
+   100%{
+   
+    background-position: 200px 0;
+   
+   }
+}
+ 

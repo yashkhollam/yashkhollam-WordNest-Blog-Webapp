@@ -1,92 +1,77 @@
 import React, { useState, useEffect, useContext } from "react";
-import axios from "axios";
+
 import { useDispatch, useSelector } from "react-redux";
-import { addfavorite, removefavorite,getfavouriteblog } from "./features/favouriteblogslice";
+
 import { useNavigate } from "react-router-dom";
 import "../css/home2.css";
-import {AuthContext} from '../components/AuthProvider'
+import '../css/cards.css'
 import toast from "react-hot-toast";
-import { getallblogs } from "./features/blogdataslice";
-
 import {Link} from 'react-scroll'
+import {getallblogsthunk} from '../components/redux/features/blogdataslice'
+import {addFavouriteblogthunk, getFavouriteblogthunk, removeFavouriteblogthunk } from "./redux/features/favouriteblogslice";
+import Blogskeletonecard from "./skeletoncard/blogskeletonecard";
+
 
 
 
 function Home() {
-  // const apiurl = import.meta.env.VITE_API_URL;
-  const {auth}=useContext(AuthContext)
-  // const [blogdata, setBlogdata] = useState([]);
-  const [hover, setHover] = useState(null);
-  // const [isfavorite, setIsfavorite] = useState([]);
+  
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const {favourite}=useSelector((state)=>state.favoriteblog)
-  const{blog,loading,error}=useSelector((state)=>state.blogdata)
+   const {favourite}=useSelector((state)=>state.favouriteblog)
+  const{allblogs,loading}=useSelector((state)=>state.blogdata)
+   const {user}=useSelector((state)=>state.userAuth)
 
   const viewblog = (blogId) => {
     navigate(`/viewblog/${blogId}`);
   };
 
-  // useEffect(() => {
-  //   const getblogData = async () => {
-  //     try {
-  //       //  const response=await axios.get('http://localhost:7878/blog/getallblogs')
-  //       const response = await axios.get(`${apiurl}/blog/getallblogs`);
 
+  const addtofavorite = async(blogId) => {
+     try{
+         const res=await dispatch(addFavouriteblogthunk(blogId)).unwrap();
+           toast((res.message),{
+           icon:"❤️❤️"
+            })
+         }
+
+         catch(err){
+          toast.error(err)
+         }
        
-  //       setBlogdata(response.data.data);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-  //   getblogData();
-  // }, []);
-
-useEffect(()=>{
-  dispatch(getallblogs())
-},[dispatch])
-
-  const addtofavorite = (blogId) => {
-
-    if(!auth.token&&!auth.userId){
-        toast.error(("Please Login"),{
-      icon:"⚠️"
-    })
-    }
     
-    else{
-          dispatch(addfavorite({blogId,token:auth.token}));
-    toast(("Added to favourite"),{
-      icon:"❤️"
-    })
-    }
    
   };
 
-  const removetofavorite = (blogId) => {
+  const removetofavourite = async(blogId) => {
     
-     dispatch(removefavorite({blogId,token:auth.token}));
-     toast(("Remove to favourite"),{
-      icon:"🗑️"
-    })
+    const res=await dispatch(removeFavouriteblogthunk(blogId)).unwrap();
+     toast((res.message),{
+      icon:"💔💔"
+    });
   };
 
 
   useEffect(()=>{
-    dispatch(getfavouriteblog({userId:auth.userId,token:auth.token}))
-  },[dispatch,auth])
+
+    if(user){
+     dispatch(getFavouriteblogthunk())
+    }
+    
+  },[dispatch,user])
 
 
-
- if(loading) return <h3>Loading Blog data....</h3>
- if(error) return <h3>failed to fetch blogs {error}</h3>
+  useEffect(()=>{
+     dispatch(getallblogsthunk())
+  },[dispatch])
 
   return (
     <>
-      <div className="container-fluid" id="hero-cont">
-        <div className="row" id="hero-row">
+     
+      <div className="container-fluid " id="hero-cont">
+        <div className="row w-100" id="hero-row">
           <div className="col-sm-12 col-md-6 " id="hero-col1">
             <h1 id="hero-heading" >
               Share your thoughts with <p>the world</p>{" "}
@@ -99,7 +84,7 @@ useEffect(()=>{
             >
               Start Writing
             </button>
-            <button id="hero-btn-2"><Link to="blog-cont1" duration={100}smooth={true}>Explore Article</Link></button>
+            <button id="hero-btn-2"><Link to="blogcard" duration={100}smooth={true}>Explore Article</Link></button>
           </div>
 
           <div className="col-sm-12 col-md-6" id="hero-col2">
@@ -113,85 +98,104 @@ useEffect(()=>{
         </div>
       </div>
 
-      <div className="container-fluid" id="blog-cont1">
-        <div className="row  " id="blog-row1">
-          {Array.isArray(blog) && blog.length > 0 ? (
-            blog.map((data, index) => (
-              <div className=" " key={data._id} id="blog-container1">
-                <div className="card " id="blog-card1" key={data._id}>
-                  <img
-                    src={data.imgurl}
-                    alt="blogimg"
-                    className="img-fluid"
-                    id="blogimg1"
-                  />
+     
+      
 
-                  <p className="cardtext" id="card-createddata1">
-                    {data.createddata}
+      <div className="container-fluid  blogcardcontainer">
+        <div className="row blog_row">
+         
+         <div className="card_warpper">
+
+          {loading.allblogsloading ? (
+           
+            new Array(8).fill(8).map(()=>(
+              <div>
+                  <Blogskeletonecard/>
+              </div>
+             
+            ))
+           
+          
+          ) :
+
+           allblogs.length > 0 ? (
+            allblogs.map((data, index) => (
+              
+                <div className="blog_card" id="blogcard" key={data._id}>
+                  
+                  <div className="uppercontainer">
+                     <p className="card_createddata">
+                    {new Date(data.createdAt).toLocaleDateString('en-GB',{
+                      day:"2-digit",
+                      month:"short",
+                      year:"numeric"
+                    })}
                   </p>
-                  <p className="cardtitle" id="card-title1">
-                    {data.title}
-                  </p>
-                  <p className="cardtext" id="card-description1">
-                    {data.description.slice(0, 100)}
-                  </p>
 
-                  <div id="author-cont1">
-                    <p className="m-0 p-0" id="author-label">
-                      author :
-                    </p>
-                    <p className="m-0 p-0" id="author-name">
-                      {data.author.toUpperCase()}
-                    </p>
-                  </div>
-
-                  <div
-                    onMouseEnter={() => setHover(data._id)}
-                    onMouseLeave={() => {
-                      setHover(null);
-                    }}
-                    id="viewbtn1"
-                  >
-                    {hover === data._id ? (
-                      <i
-                        class="bi bi-eye-fill"
-                        onClick={() => {
-                          viewblog(data._id);
-                        }}
-                      ></i>
-                    ) : (
-                      <i class="bi bi-eye" id=""></i>
-                    )}
-                  </div>
-
-                  <div className="favirotecontainer">
+                     <div className="favouritecontainer">
+                    
                     {Array.isArray(favourite)&&favourite.some(blog=>blog._id===data._id)? (
                       <i
-                        className="bi-heart-fill"
-                        id="favfillicon"
+                        className="bi bi-heart-fill  fs-4"
+                        style={{color:"red"}}
                         onClick={() => {
-                          removetofavorite(data._id);
+                          removetofavourite(data._id);
                         }}
                       ></i>
                     ) : (
                       <i
-                        className="bi bi-heart"
+                        className="bi bi-heart fs-4"
                         onClick={() => {
                           addtofavorite(data._id);
                         }}
                       ></i>
                     )}
-                  </div>
-                </div>
+                  </div> 
 
-                {/* <div className='favirotecontainer'>
-                    
+                  </div>
+                 
+
+                  <img
+                    src={data?.imgurl}
+                    alt="blogimg"
+                    loading="lazy"
+                    className="blogimg"
+                  />
+ 
+                  
+                      <p className="card-title">
+                    {data.title}
+                  </p>
+                  <p className="card-description">
+                    {data.description.slice(0, 100)}....
+                  </p>
+
+                  {/* <div className="author_cont">
+                    <p className="m-0 p-0 author_label">
+                      author :
+                    </p>
+                    <p className="m-0 p-0 author_name">
+                      {data.author.toUpperCase()}
+                    </p>
                   </div> */}
+
+                 <button className="viewbtn"
+                 onClick={()=>viewblog(data._id)}>View</button>
+                  
+                 
+
+
+                  
+                
+                 
               </div>
             ))
           ) : (
             <h1>No blog yet</h1>
           )}
+
+         </div>
+        
         </div>
       </div>
     </>

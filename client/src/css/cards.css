@@ -1,0 +1,155 @@
+.blogcardcontainer{
+    /* background-color: red; */
+    width:100%;
+    
+    
+
+}
+
+
+.blog_row{
+    /* background-color: pink; */
+    /* background-color:orange; */
+    display: flex;
+    justify-content: center;
+
+
+
+}
+
+
+.card_warpper{
+    
+   width: 1300px;
+    display: flex;
+    flex-wrap: wrap;
+    /* background-color:red; */
+    padding:0;
+    gap:30px;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.blog_card{
+    /* background-color:yellow; */
+    min-height:340px;
+    width: 320px;
+    border-radius: 10px;
+    box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.366);
+    position: relative;
+     /* transition: blogcard 0.5s ease;   */
+    
+}
+
+.blog_card:hover{
+     transform:translateY(-5px);
+     transition: 0.8s ease;
+     box-shadow: 0 0 2px 2px rgba(29, 35, 62, 0.942);
+}
+
+
+.uppercontainer{
+    position: absolute;
+    display: flex;
+    justify-content:space-between;
+    
+    width:100%;
+}
+
+.card_createddata{
+    /* position: absolute; */
+    background-color:white;
+    padding: 2px 10px;
+    border-top-left-radius:10px ;
+    border-bottom-right-radius:10px ;
+    font-weight:bold;
+}
+
+
+.favouritecontainer{
+   background-color:whitesmoke; 
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   padding:0;
+   width: 30px;
+   height:30px;
+   cursor: pointer;
+    border-top-right-radius:10px ;
+    border-bottom-left-radius:10px ;
+
+}
+
+.favfillicon{
+    color:red;
+    padding-right: 10px;
+   font-size:20px;
+   
+   
+}
+
+.blogimg{
+    height:170px;
+    width:100%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    object-fit: cover;
+  
+
+}
+
+.card-title{
+    font-weight: bold;
+     font-size:18px;
+     padding:8px 8px 0 8px;
+      word-break: break-word;
+     
+}
+
+.card-description{
+    color: rgba(0, 0, 0, 0.578);
+    font-size:17px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    
+    word-break: break-word;
+     padding:2px 8px 25px 8px;
+
+}
+
+
+.author_cont{
+     display: flex;
+
+    
+}
+
+.author_label{
+    color: black;
+    font-weight: bold;
+}
+
+.viewbtn{
+    /* background-color:rgb(80, 80, 246); */
+    background-color:yellow;
+    color:black;
+    height:35px;
+    display:flex;
+    justify-content: center;
+    /* font-family: */
+    font-weight: bold;
+    align-items: center;
+    width:100%; 
+    border-bottom-right-radius:10px ;
+    border-bottom-left-radius:10px ;
+    border: none;
+    /* color:white; */
+    font-size: 17px;
+    position: absolute;
+   bottom:0;
+
+}
+
+.viewbtn:hover{
+    color:rgba(0, 0, 0, 0.403);
+}
+

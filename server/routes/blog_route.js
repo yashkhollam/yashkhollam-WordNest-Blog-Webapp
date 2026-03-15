@@ -1,21 +1,31 @@
-const express=require('express')
-const route=express.Router()
-const { createblog, getallblogs, updateblog, deleteblogbyId, getmyblogs, viewblog, addfavorites, removefavorites, getfavoriteblog, } = require('../controller/blogsController')
-const upload=require('../Middleware/imgClodmiddleware');
-const verifyToken = require('../Middleware/authantication');
+import { Router } from 'express';
+import upload from '../Middleware/imgClodmiddleware.js';
+import {userAuthMiddleware} from  '../Middleware/userAuthentication.js';
+
+export const blogroute=Router()
+
+import { getallblogs } from '../controller/blogoperation/getllblog.js';
+import { getmyblogs } from '../controller/blogoperation/getmyblog.js';
+import { viewblog } from '../controller/blogoperation/viewblog.js'
+import { createblog } from '../controller/blogoperation/createblog.js';
+import { updateblog } from '../controller/blogoperation/updateblog.js';
+import { deleteblogbyId } from '../controller/blogoperation/deleteblog.js';
+import { addfavorites } from '../controller/blogoperation/addfavouriteblog.js';
+import { getfavoriteblog } from '../controller/blogoperation/getfavouriteblog.js';
+import { removefavorites } from '../controller/blogoperation/removefavouriteblog.js';
+// import { getmyblogs } from '../controller/blogoperation/getmyblog.js';
 
 
-route.get('/getallblogs',getallblogs);
- route.get('/viewblog/:id',viewblog)
-route.get('/myblogs',verifyToken,getmyblogs)
-route.post('/createblog', verifyToken, upload.single('image'),createblog)
-route.patch('/updateblog/:id',upload.single('image'),updateblog)
-route.delete('/deleteblog/:id',deleteblogbyId)
 
-route.post('/addfavorite/:blogId',verifyToken,addfavorites);
-route.get('/getfavoriteblog/:userId',verifyToken,getfavoriteblog)
-route.delete('/removefavorite/:blogId',verifyToken,removefavorites)
+blogroute.get('/getallblogs',getallblogs);
+ blogroute.get('/viewblog/:id',viewblog)
+blogroute.get('/myblogs',userAuthMiddleware,getmyblogs)
+blogroute.post('/createblog', upload.single('image'),userAuthMiddleware,createblog)
+ blogroute.patch('/updateblog/:id',upload.single('image'),updateblog)
+blogroute.delete('/deleteblog/:id',deleteblogbyId)
+
+blogroute.post('/addfavourite/:blogId',userAuthMiddleware,addfavorites);
+blogroute.get('/getfavouriteblog',userAuthMiddleware,getfavoriteblog)
+blogroute.delete('/removefavourite/:blogId',userAuthMiddleware,removefavorites);
 
 
-
-module.exports=route;

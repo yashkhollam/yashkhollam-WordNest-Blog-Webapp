@@ -1,5 +1,5 @@
 const { date } = require('joi');
-const commentmodel=require('../model/CommentSchema');
+const commentmodel=require('../../model/CommentSchema');
 const { default: mongoose } = require('mongoose');
 
 

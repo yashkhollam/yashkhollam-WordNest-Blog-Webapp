@@ -1,4 +1,4 @@
-
+/* 
 *{
     box-sizing:border-box;
     margin:0;
@@ -20,11 +20,15 @@
  
 
 #nav-container{
-    /* background-color:yellow; */
+    box-shadow:0 5px 5px rgba(0, 0, 0, 0.318);
     height:50px;
+    width:100%;
+    position: fixed;
+    top:0;
+    background-color:white;
+    z-index:99;
 
-     
-   
+    
 }
 
 
@@ -157,11 +161,14 @@
  
     .group-items{
     display: none;
+    justify-content:center;
 
  } 
 
  .hamburger{
     display: block;
+    cursor: pointer;
+    
 
  }
 
@@ -171,19 +178,16 @@
  .mobilecss{
     display:flex;
     flex-direction: column;
-    position:absolute !important;
-    
-    backdrop-filter: blur(15px);
+    position:absolute !important;    
     height:300px;
-  
+
     width:100%;
-    /* background-color: red; */
+    background-color:white;
     left: 0;
     right: 0; 
     padding:0 0px;
 margin-top:53px;
-
-
+ box-shadow:5px 5px 5px rgba(0, 0, 0, 0.262);
 color:black;
 z-index: 99;
 
@@ -191,11 +195,11 @@ z-index: 99;
  }
 
  .mobilecss li{
-  
-  margin-bottom: 20px;
+   
+  /* margin-bottom:10px; */
  }
 } 
 
 
 
-
+ 

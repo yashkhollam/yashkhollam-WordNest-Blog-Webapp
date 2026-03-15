@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import {createBrowserRouter,RouterProvider} from 'react-router-dom';
  //import Navbar from './components/navbar';
@@ -14,13 +15,16 @@ import Login from './components/login'
 import Signup from './components/signup';
 import App from './App'
 import Shareblogs from './components/shareblog';
-import AuthProvider from './components/AuthProvider';
+
 import ProctectedRoute from './components/ProctectedRoute';
 
 import Viewblog from './components/viewblog';
 import EditBlog from './components/editblog';
-import { store } from './components/features/reduxstore';
+import { store } from './components/redux/store/reduxstore.js';
 import {Provider} from 'react-redux'
+import axios from 'axios';
+
+axios.defaults.withCredentials = true
 
 const router=createBrowserRouter([
      {
@@ -57,9 +61,9 @@ const router=createBrowserRouter([
 createRoot(document.getElementById('root')).render(
  <>
    <Provider store={store}>
-   <AuthProvider>
+   
      <RouterProvider router={router}/> 
-   </AuthProvider>
+   
    </Provider> 
      
  </>

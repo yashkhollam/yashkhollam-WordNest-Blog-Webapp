@@ -1,24 +1,25 @@
 
 // import {toast} from 'react-hot-toast'
 
-import axios from 'axios'
+
 import '../css/shareblog.css'
-import { useState } from 'react'
+import { useState,useEffect ,useRef} from 'react'
 import { useParams } from 'react-router-dom'
-import { useEffect } from 'react'
-import toast from 'react-hot-toast'
-import { useRef } from 'react'
+import {toast} from 'react-hot-toast'
+import {useDispatch,useSelector} from 'react-redux'
+import { getblogbyIdthunk,updateblogthunk } from './redux/features/blogdataslice'
 
 
 
 function EditBlog() {
 
-  const apiurl=import.meta.env.VITE_API_URL;
-
+  
  const {id}=useParams()
+const dispatch=useDispatch();
+const {blog,loading}=useSelector((state)=>state.blogdata)
+const [imgpreview,setImgpreview]=useState(null)
 
-
-const data1={
+const data={
   title:"",
   category:"",
   description:"",
@@ -26,41 +27,46 @@ const data1={
   imgurl:""
   
 }
-const [input,setInput]=useState(data1)
+const [formdata,setFormdata]=useState(data)
 
 const handleinput=(e)=>{
   // console.log({...input,[e.target.name]:e.target.value})
 
  const {files,name,value}=e.target
 if(name==="image"){
-  setInput({...input,[name]:files[0]})
+  const imgurl=URL.createObjectURL(files[0])
+  setImgpreview(imgurl)
+  setFormdata({...formdata,[name]:files[0]})
+  
 }
 else{
-  setInput({...input,[name]:value})
+  setFormdata({...formdata,[name]:value})
 }
 
 }
+
+
+
 
 useEffect(()=>{
-   const fetchblogdata=async()=>{
-  // const response=await axios.get(`http://localhost:7878/blog/viewblog/${id}`)
-   const response=await axios.get(`${apiurl}/blog/viewblog/${id}`)
+      dispatch(getblogbyIdthunk(id))
+},[dispatch,id])
 
-  // console.log(response.data.data)
-  const data=response.data.data
-  setInput({
-    title:data.title,
-    category:data.category,
-    description:data.description,
-    image:null,
-   
-  })
-   return response.data.data
-   
-}
-fetchblogdata()
-},[])
 
+useEffect(()=>{
+  if(blog){
+     setFormdata({
+       title:blog?.title,
+  category:blog?.category,
+  description:blog?.description,
+  image:blog?.imgurl
+
+     })
+     setImgpreview(blog?.imgurl)
+
+    
+  }
+},[blog])
 
 
 const refrence=useRef()
@@ -68,42 +74,31 @@ const refrence=useRef()
  const updateblog=async(e)=>{
   e.preventDefault()
     try{
+      console.log("id",id)
    
-      const formdata=new FormData()
+      const form=new FormData()
 
-      formdata.append('title',input.title)
-      formdata.append('category',input.category)
-      formdata.append('description',input.description)
+      form.append('title',formdata?.title)
+      form.append('category',formdata?.category)
+      form.append('description',formdata?.description)
 
-      if(input.image){
-         formdata.append('image',input.image)
+      if(formdata?.image){
+         form.append('image',formdata?.image)
       }
      
-      
-
-
-
-
-    const response=await axios.patch(`http://localhost:7878/blog/updateblog/${id}`,formdata,{
-       'Content-Type':"multipart/form-data",
-    })
+     
+    const res=await dispatch(updateblogthunk({id,form})).unwrap()
+    toast.success(res.message)
+   
     
+      setFormdata({title:"",category:"",description:"",image:null,
     
-    // console.log(response.data.data)
-    const {message}=response.data
-    toast.success(message)
+})
+setImgpreview(null)
+
     }
     catch(err){
       console.log(err)
-      toast.error("failed to update the blog")
-      refrence.current.value=""
-      setInput({
-  title:"",
-  category:"",
-  description:"",
-  image:null,
-  
-})
     }
  }
   
@@ -125,7 +120,7 @@ const refrence=useRef()
                        className='form-control'
                         id='inputtext'
                         name='title'
-                        value={input.title}
+                        value={formdata?.title}
                         onChange={handleinput}
                        />
               </div> 
@@ -137,12 +132,13 @@ const refrence=useRef()
                 <select name="category"
                           id='inputtext' 
                        className='form-select'
-                       value={input.category}
+                       value={formdata?.category}
                         onChange={handleinput}
                        
                       
                        >
-                    <option value="" id='formlabel'>select a Category</option>     
+                    
+
                   <option value="Destination">Destination</option>
                    <option value="Lifestyle">Lifestyle</option>
                     <option value="Culinary">Culinary</option>
@@ -162,7 +158,7 @@ const refrence=useRef()
                             id='inputtext'
                         style={{height:"100px"}}
                           name="description"
-                          value={input.description}
+                          value={formdata?.description}
                           onChange={handleinput}
                           ></textarea>
 
@@ -171,20 +167,29 @@ const refrence=useRef()
 
               <div id='data'>
                <label htmlFor="" className='form-label fs-3 ms-3' id='formlabel'>file :</label>
-               <input type="file"
-                      
+
+              <img src={imgpreview}
+               alt=""
+                style={{height:"100px",width:"100px"}} />
+
+               <input type="file"  
                       name='image'
                       id='inputtext'
                       accept='image/*'
                        onChange={handleinput}
-                       ref={refrence}
+                      
+                      
   
                        />
               
 
               </div>
             <div className='d-flex  justify-content-center'id='postbtn-container'>
-                <button type='submit' className='btn' id='postbtn'>Update</button>
+                <button 
+                type='submit'
+                className='btn'
+                id='postbtn'
+                >Update</button>
             </div>
             
 

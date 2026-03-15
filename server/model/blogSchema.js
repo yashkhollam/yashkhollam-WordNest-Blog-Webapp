@@ -1,5 +1,5 @@
 
-const mongoose=require('mongoose')
+import mongoose from 'mongoose'
 
 
 
@@ -26,19 +26,16 @@ const BlogSchema=mongoose.Schema({
     public_id:{
         type:String
     },
-    // createdby:{
-    //    type:String
-    // },
-    createddata:{
-        type:String
-    },
+    
     createdBy:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"usermodel"
     },
     
+},{
+    timestamps:true
 })
 
 const blogModel=mongoose.model('blogdata',BlogSchema)
 
-module.exports=blogModel;
+export default blogModel;

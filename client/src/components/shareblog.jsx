@@ -1,123 +1,106 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import {toast} from 'react-hot-toast'
-import axios from 'axios'
+import {useDispatch,useSelector} from 'react-redux'
 import '../css/shareblog.css'
-import { AuthContext } from './AuthProvider'
+import { createblogthunk } from './redux/features/blogdataslice'
+import Loader from '../components/loader.jsx'
 
 function Shareblogs() {
- const apiurl=import.meta.env.VITE_API_URL;
 
-  const {auth}=useContext(AuthContext)
+  const {loading}=useSelector((state)=>state.blogdata)
+ const dispatch=useDispatch()
 const data={title:"",category:"",description:"",image:""}
 
-  const[input,setInput]=useState(data)
-  const [loading,setLoading]=useState(false)
-  const clearinput=useRef()
+  const[formdata,setFormdata]=useState(data)
+  const [imgpreview,setImgpreview]=useState(null)
   
-  const handleinput=(e)=>{
+ 
+  
+  const handleformdata=(e)=>{
    const{name,value,files}=e.target;
     
-    // console.log({...input,[name]:value})
+     
     
     if(name==="image"){
-       setInput({...input,image:files[0]}) 
+       const image=URL.createObjectURL(files[0])
+       setImgpreview(image)
+       setFormdata({...formdata,image:files[0]}) 
     }
     else{
-      setInput({...input,[name]:value})
+      setFormdata({...formdata,[name]:value})
     }
+
+    // console.log({...formdata,[name]:value})
     
   }
+  
+ 
 
   const submitform=async(e)=>{
     e.preventDefault();
     try{
-
-
-      setLoading(true)
-
-      const formdata=new FormData();
-        formdata.append("title",input.title)
-        formdata.append("category",input.category)
-        formdata.append('description',input.description )
-        formdata.append('image',input.image)
-        formdata.append('author',localStorage.getItem('username'))
+     
         
-
-        if (!input.image) {
-  toast(("Please select an image before submitting."),{
-    icon:"⚠️",
-    
-  });
-  return;
-}
+         const form=new FormData();
+        form.append("title",formdata.title)
+        form.append("category",formdata.category)
+        form.append('description',formdata.description )
+        form.append('image',formdata.image)
+        
+        console.log("inputdata",form)
+        
+      const res= await dispatch(createblogthunk(form)).unwrap()
+      
+        toast.success(res.message)
+      
+      
        
-        // const response=await axios.post(`http://localhost:7878/blog/createblog`
-         const response=await axios.post(`${apiurl}/blog/createblog`
-          ,formdata
-          ,{
-          headers:{
-            "Content-Type":"multipart/form-data",
-             Authorization:`Bearer ${auth.token}`
-          },
-        }
-      )
        
-        const {message}=response.data
-        toast.success(message)
-        clearinput.current.value="";
-        setInput({title:"",category:"",description:"",image:""})
-        // console.log("Blog created:",response.data)
-
-        // return response.data
+       
+        setImgpreview(null)
+        setFormdata({title:"",category:"",description:"",image:""})
+       
 
         
     }
     catch(err){
-      // console.log(err) 
-      toast.error(err.response.data.message)
+      
+      toast.error(err)
     }
-    finally{
-      setLoading(false)
-    }
+    
   }
 
   return (
    <>
 
-     {
-      loading&&(
-        <div id='spinner-container'>
-           <div className="spinner-border text-primary " role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
-        </div>
-      )
-     }
+     {loading.createblogloading && <Loader/>}
+
+     
      <div className="container-fluid  min-vh-100" id='container1' >
       <div className="row w-100" style={{maxWidth:"1000px"}}zz>
         <div className="col-12">
             <form className='form ' id='form' onSubmit={submitform}>
               
               <div className='' id='data'>
-                <label className='form-label fs-3 ms-3' id='formlabel'>Title :</label>
+                <label className='formlabel'>Title :</label>
 
                 <input type="text"
-                       className='form-control'
-                        id='inputtext'
-                        onChange={handleinput}
+                        className='form-control'
+                        id='formdatatext'
+                        onChange={handleformdata}
                         name='title'
-                        value={input.title}/>
+                        value={formdata.title}/>
               </div> 
 
 
               <div className='' id='data' >
-                <label className='form-label fs-3 ms-3' id='formlabel'>Category :</label>
+                <label className='formlabel' >Category :</label>
 
                 <select name="category"
-                         value={input.category}
-                       id='inputtext'
+                         value={formdata.category}
+                       id='formdatatext'
                        className='form-select'
-                       onChange={handleinput}
+                       onChange={handleformdata}
                        >
                     <option value="">select a Category</option>     
                   <option value="Destination">Destination</option>
@@ -131,28 +114,40 @@ const data={title:"",category:"",description:"",image:""}
 
 
               <div className='' id='data' >
-                <label className='form-label fs-3 ms-3' id='formlabel'>Description :</label>
+                <label className='formlabel' >Description :</label>
 
                 <textarea type="text"
                        className='form-control'
-                         id='inputtext'
+                         id='formdatatext'
                         style={{height:"100px"}}
-                        onChange={handleinput}
+                        onChange={handleformdata}
                         name='description'
-                        value={input.description } />
+                        value={formdata.description } />
               </div> 
 
 
               <div id='data'>
-               <label htmlFor="" className='form-label fs-3 ms-3' id='formlabel'>file :</label>
+               <label htmlFor="" className='formlabel ' >file :</label>
+                
+                <div className='d-flex align-items-center gap-5'>
+                        <img src={imgpreview} 
+              alt="img preview"
+              style={{height:"100px",
+                      width:"100px",
+                      border:"2px solid black"}} />
+               
                <input type="file"
-                      onChange={handleinput}
+                      onChange={handleformdata}
                       name='image'
-                      id='inputtext'
+                      id='imginput'
                       accept='image/*'
-                      ref={clearinput}
-  
+                    
+                      className='d-none'
                        />
+              <label htmlFor="imginput"
+                      style={{fontSize:"80px"}}>📂</label>
+                </div>
+            
               </div>
             <div className='d-flex  justify-content-center'id='postbtn-container'>
                 <button type='submit' className='btn' id='postbtn'>Post</button>

@@ -1,7 +1,8 @@
-const mongoose=require('mongoose')
-const dotenv=require('dotenv')
+import mongoose from 'mongoose'
+import dotenv from 'dotenv'
 dotenv.config()
-const ConnectMD=async()=>{
+
+export const ConnectMD=async()=>{
     try{
         await mongoose.connect(process.env.MONGODB_URI)
          console.log("MongoDB Atlas Connected Suceessfully atlas")
@@ -16,4 +17,3 @@ const ConnectMD=async()=>{
    
 }
 
-module.exports=ConnectMD

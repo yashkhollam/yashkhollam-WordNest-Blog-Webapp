@@ -1,54 +1,45 @@
 import React, { useState } from "react";
 import "../css/signup.css";
 //import signup from '../assets/signup.jpeg'
-import{Link, NavLink, useNavigate} from 'react-router-dom'
-import  axios from 'axios'
+import{NavLink, useNavigate} from 'react-router-dom'
  import {toast} from 'react-hot-toast'
-import image from '../assets/signupimg.jpg'
+
+import { signupthunk } from "./redux/features/userAuthSlice";
+import { useDispatch,useSelector } from "react-redux";
+import Loader from "./loader";
 
 
 function Signup() {
-
-  const apiurl=import.meta.env.VITE_API_URL;
-    const [loading,setLoading]=useState(false)
-
+ 
+const {loading}=useSelector((state)=>state.userAuth)
+ const dispatch=useDispatch()
+const [passhide,setpasshide]=useState(false) 
   const data = {
     username: "",
     email: "",
     password: "",
   };
-  const [input, setInput] = useState(data);
 
+  const [formdata, setFormdata] = useState(data);
   const navigate=useNavigate()
 
   const handleinput = (e) => {
-    setInput({ ...input, [e.target.name]: e.target.value });
-    // console.log({ ...input, [e.target.name]: e.target.value });
+    setFormdata({ ...formdata, [e.target.name]: e.target.value });
+     console.log({ ...formdata, [e.target.name]: e.target.value });
   };
 
   const submitdata=async(e)=>{
   e.preventDefault();
    try{
    
-    //  const response=await axios.post(`http://localhost:7878/auth/signup` 
-    //   ,input)
-
-    setLoading(true)
-
-  const response=await axios.post(`${apiurl}/auth/signup` 
-      ,input)
-
-    toast.success("Signup Successfully")
-     setInput({username: "",email: "",password: ""})
-     const result=response.data
-  
-    //  console.log(result);
-     const{message}=result
-    //  console.log(message)
-     toast.success(message)
-      setTimeout(()=>{
+    const res=await dispatch(signupthunk(formdata)).unwrap() 
+    
+    toast.success(res.message)
+     setFormdata({username: "",email: "",password: ""})
+     
+      
         navigate('/login')
-      },3000)
+     
   
     }
    
@@ -56,12 +47,10 @@ function Signup() {
     
    
    catch(err){
-    toast.error(err.response.data.message||"Someting went wrong")
+    console.log(err)
+     toast.error(err)
    } 
 
-   finally{
-    setLoading(false)
-   }
    }
 
   
@@ -69,41 +58,65 @@ function Signup() {
 
   return (
     <>
+    {loading.signuploading&& <Loader/>}
+     
+<div className="container-fluid formcontainer">
+  
+    
+     
+     
+      <form  className="form" onSubmit={submitdata}>
+          <h1 className="text-center text-primary fw-bold">Create Account</h1>
 
-     {
-      loading&&(
-        <div id='spinner-container'>
-           <div className="spinner-border text-primary " role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
+
+        <label className="form-label mt-3 fw-bold">Username :</label>
+        
+        <input type="text"
+               className="form-control"
+               name="username" 
+               value={formdata.username}
+              onChange={handleinput} />
+
+        <label className="form-labelfw-bold mt-3 fw-bold">Email :</label>
+        
+        <input type="email"
+               className="form-control" 
+               name="email"
+               value={formdata.email}
+               onChange={handleinput} />
+
+       <label className="form-label fw-bold mt-3">Password :</label>
+        <div className='passoword-wrapper'>
+        
+        <i className={`bi ${passhide ?"bi-eye":"bi-eye-slash eye-solid "}  eyeicon`}
+            onClick={()=>setpasshide(!passhide)}/>   
+       
+        <input type={passhide ? "password":"text"}
+               className="form-control pe-5"
+               name="password"
+               value={formdata.password}
+               onChange={handleinput} />
+              
         </div>
-      )
-     }
-<div className="container-fluid " id="signup-cont">
-  <div className="row mt-5" id="signup-row">
-    <div className="col-12" id="signup-col">
-      <h1 id="heading">Create Account</h1>
-     
-     
-      <form  id="sigup-form" onSubmit={submitdata}>
-        <label className="form-label">Username :</label>
-        <input type="text" className="form-control" name="username" value={input.username} onChange={handleinput} />
+        
 
-        <label className="form-label mt-3">Email :</label>
-        <input type="email" className="form-control" name="email" value={input.email} onChange={handleinput} />
+        <button type="submit"
+         className="btn mt-4 w-100 btn mt-4 w-100 bg-success text-light" 
+          >Sign Up</button>
 
-        <label className="form-label mt-3">Password :</label>
-        <input type="password" className="form-control" name="password" value={input.password} onChange={handleinput} />
-
-        <button type="submit" className="btn mt-4 w-100" id="form-signupbtn">Sign Up</button>
-
-       <span className="">Already have account <NavLink  style={{fontFamily:"font-family:Poppins, sans-serif",marginLeft:"7px"}}  onClick={()=>(navigate('/login'))}>Login</NavLink></span>
+       <div className="mt-3">
+       
+        Already have account 
+       
+        <NavLink   className='ms-3'
+                  onClick={()=>(navigate('/login'))}>
+                   
+                    Login
+          </NavLink></div>
       </form>
    
    
-    </div>
-  </div>
-</div>
+   </div>
     </>
   );
 }
