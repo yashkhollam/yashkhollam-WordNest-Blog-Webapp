@@ -14,7 +14,7 @@ const app=express()
 const PORT=process.env.PORT;
 app.use(cors({
     // origin:"http://localhost:5173",
-    origin:"yashkhollam-word-nest-blog-webapp.vercel.app",
+    origin:"https://yashkhollam-word-nest-blog-webapp.vercel.app",
     credentials:true
 }))
 app.use(express.json());
