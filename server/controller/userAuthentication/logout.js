@@ -10,7 +10,7 @@ export const Logout=async(req,res)=>{
         // secure:false,
         // samesite:"lax"
 
-        sameSite:none,
+        sameSite:"none",
         secure:true,
       })
 
