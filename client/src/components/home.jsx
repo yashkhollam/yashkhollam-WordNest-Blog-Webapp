@@ -23,14 +23,29 @@ function Home() {
    const {favourite}=useSelector((state)=>state.favouriteblog)
   const{allblogs,loading}=useSelector((state)=>state.blogdata)
    const {user}=useSelector((state)=>state.userAuth)
+  
+
+const postblog=()=>{
+  
+    if(!user){
+    toast.error("Please login to continue")
+  }  
+  navigate('/shareblog')
+}
 
   const viewblog = (blogId) => {
     navigate(`/viewblog/${blogId}`);
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    })
+    
   };
 
 
   const addtofavorite = async(blogId) => {
      try{
+        
          const res=await dispatch(addFavouriteblogthunk(blogId)).unwrap();
            toast((res.message),{
            icon:"❤️❤️"
@@ -46,7 +61,8 @@ function Home() {
   };
 
   const removetofavourite = async(blogId) => {
-    
+   
+
     const res=await dispatch(removeFavouriteblogthunk(blogId)).unwrap();
      toast((res.message),{
       icon:"💔💔"
@@ -80,7 +96,7 @@ function Home() {
              Explore, read, and write — connect with ideas that inspire and let your own stories reach the world.
             </p>
 
-            <button id="hero-btn-1" onClick={() => { navigate("/shareblog"); }}
+            <button id="hero-btn-1" onClick={postblog}
             >
               Start Writing
             </button>
@@ -108,8 +124,8 @@ function Home() {
 
           {loading.allblogsloading ? (
            
-            new Array(8).fill(8).map(()=>(
-              <div>
+            new Array(8).fill(8).map((_,index)=>(
+              <div key={index}>
                   <Blogskeletonecard/>
               </div>
              
@@ -118,10 +134,10 @@ function Home() {
           
           ) :
 
-           allblogs.length > 0 ? (
+           allblogs?.length > 0 ? (
             allblogs.map((data, index) => (
               
-                <div className="blog_card" id="blogcard" key={data._id}>
+                <div className="blog_card" id="blogcard" key={index}>
                   
                   <div className="uppercontainer">
                      <p className="card_createddata">

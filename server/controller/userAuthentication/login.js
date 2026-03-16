@@ -36,8 +36,7 @@ export const Login=async(req,res)=>{
 
     res.cookie('jwtToken',jwtToken,{
         httpOnly:true,
-        // sameSite:"lax",
-        // secure:false,
+        
          
         sameSite:"none",
         secure:true,

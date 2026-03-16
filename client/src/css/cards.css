@@ -130,8 +130,8 @@
 
 .viewbtn{
     /* background-color:rgb(80, 80, 246); */
-    background-color:yellow;
-    color:black;
+   background:#E76F51;
+color:white;
     height:35px;
     display:flex;
     justify-content: center;
@@ -151,5 +151,6 @@
 
 .viewbtn:hover{
     color:rgba(0, 0, 0, 0.403);
+    background:#d65a3e;
 }
 

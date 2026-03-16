@@ -31,7 +31,7 @@ function Myblogs() {
 const formatedDate=[]
 
  for ( let blog of userblogs){
-  console.log("my blog =",blog.createdAt)
+  
 
 
   const data=new Date(blog.createdAt)

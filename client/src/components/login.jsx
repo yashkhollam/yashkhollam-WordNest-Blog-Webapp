@@ -25,7 +25,7 @@ const[formdata,setFormdata]=useState(data)
 
 const handleinput=(e)=>{
  setFormdata({...formdata,[e.target.name]:e.target.value})
- console.log({...formdata,[e.target.name]:e.target.value});
+ 
  
 }
 
@@ -44,7 +44,6 @@ const submitdata=async(e)=>{
   }
   
   catch(err){
-   console.log(err)
      toast.error(err)
   }
 

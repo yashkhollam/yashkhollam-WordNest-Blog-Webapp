@@ -15,9 +15,7 @@ if(!isauthChecked){
 }
 
   if(!isAuthenticated){
-    toast("please login to continue",{
-      icon:"⚠️⚠️"
-    })
+    
     return  <Navigate to='/' replace={true}/>
     
   }

@@ -7,9 +7,7 @@ export const Logout=async(req,res)=>{
 
       res.clearCookie('jwtToken',{
         httpOnly:true,
-        // secure:false,
-        // samesite:"lax"
-
+        
         sameSite:"none",
         secure:true,
       })

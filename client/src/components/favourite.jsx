@@ -46,8 +46,6 @@ const removefavourite=async(blogId)=>{
 const formatedDate=[]
 
  for ( let blog of favourite){
-  console.log("my blog =",blog.createdAt)
-
 
   const data=new Date(blog.createdAt)
    formatedDate.push(data.toLocaleDateString('en-GB',{

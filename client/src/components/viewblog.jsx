@@ -27,7 +27,13 @@ function Viewblog() {
     },[dispatch,id])
    
    const copylink=()=>{
-     console.log("url","http://localhost:5173"+location.pathname,)
+    
+           const url=window.location.href
+      
+       navigator.clipboard.writeText(url)
+      toast("Link Copied",{
+        icon:"🔗🔗"
+      })
    }
 
 

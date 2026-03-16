@@ -141,7 +141,7 @@ const userAuthSlice=createSlice({
         })
 
         .addCase(getmethunk.fulfilled,(state,action)=>{
-             console.log(action.payload)
+            
             state.user=action.payload.data;
             state.loading.getmeloading=false;
            state.isAuthenticated=true;
